@@ -1,0 +1,7 @@
+*.~undo-tree~
+.vscode/*
+.emacs.d/*
+.nutstore/*
+.pyenv/*
+*.log
+*.apk
