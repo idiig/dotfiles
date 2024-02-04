@@ -1,3 +1,35 @@
+# Launch Applications
+ctrl + cmd - 0x24: osascript -e 'tell application "Notion" to run' \
+  -e 'tell application "System Events"' \
+  -e 'if visible of application process "Notion" is true then' \
+  -e 'set visible of application process "Notion" to false' \
+  -e 'else' \
+  -e 'set visible of application process "Notion" to true' \
+  -e 'end if' \
+  -e 'end tell'
+shift + cmd - 0x24: osascript -e 'tell application "Alacritty" to run' \
+  -e 'tell application "System Events"' \
+  -e 'if visible of application process "Alacritty" is true then' \
+  -e 'set visible of application process "Alacritty" to false' \
+  -e 'else' \
+  -e 'set visible of application process "Alacritty" to true' \
+  -e 'end if' \
+  -e 'end tell'
+shift + cmd - 0x01: osascript -e 'tell application "Slack" to run' \
+  -e 'tell application "System Events"' \
+  -e 'if visible of application process "Slack" is true then' \
+  -e 'set visible of application process "Slack" to false' \
+  -e 'else' \
+  -e 'set visible of application process "Slack" to true' \
+  -e 'end if' \
+  -e 'end tell'
+
+# Restart
+ctrl + cmd + alt - r: \
+  /usr/bin/env osascript <<< \
+  "display notification \"Restarting Yabai\" with title \"Yabai\""; \
+  launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+
 # focus window
 alt - h: yabai -m window --focus west || yabai -m display --focus west
 alt - l: yabai -m window --focus east || yabai -m display --focus east
@@ -5,53 +37,63 @@ alt - j: yabai -m window --focus south || yabai -m display --focus south
 alt - k: yabai -m window --focus north || yabai -m display --focus north
 alt - n: yabai -m window --focus next || yabai -m display --focus next
 alt - p: yabai -m window --focus prev || yabai -m display --focus prev
-alt - x : yabai -m window --focus recent
+shift + alt - x: yabai -m window --focus current
+
+# Focus Display
+shift + alt - p: yabai -m display --focus prev \
+  && yabai -m display --focus stack.prev
+shift + alt - n: yabai -m display --focus next \
+  && yabai -m display --focus stack.next
 
 # swap window
-shift + alt - x : yabai -m window --swap recent
-shift + alt - h : yabai -m window --swap west || yabai -m display --swap west
-shift + alt - j : yabai -m window --swap south || yabai -m display --swap south
-shift + alt - k : yabai -m window --swap north || yabai -m display --swap north
-shift + alt - l : yabai -m window --swap east || yabai -m display --swap east
-# move window
-shift + cmd - h : yabai -m window --warp west || yabai -m display --warp west
-shift + cmd - j : yabai -m window --warp south || yabai -m display --warp south
-shift + cmd - k : yabai -m window --warp north || yabai -m display --warp north
-shift + cmd - l : yabai -m window --warp east || yabai -m display --warp east
-# move window
-shift + ctrl - a : yabai -m window --move rel:-20:0
-shift + ctrl - s : yabai -m window --move rel:0:20
-shift + ctrl - w : yabai -m window --move rel:0:-20
-shift + ctrl - d : yabai -m window --move rel:20:0
+shift + alt - x: yabai -m window --swap recent
+shift + alt - h: yabai -m window --swap west
+shift + alt - j: yabai -m window --swap south
+shift + alt - k: yabai -m window --swap north
+shift + alt - l: yabai -m window --swap east
+# Move Window in Same Display
+shift + cmd - h: yabai -m window --warp west
+shift + cmd - j: yabai -m window --warp south
+shift + cmd - k: yabai -m window --warp north
+shift + cmd - l: yabai -m window --warp east
+shift + ctrl - a: yabai -m window --move rel:-20:0
+shift + ctrl - s: yabai -m window --move rel:0:20
+shift + ctrl - w: yabai -m window --move rel:0:-20
+shift + ctrl - d: yabai -m window --move rel:20:0
+# Move Window between Displays
+ctrl + alt + cmd - p: yabai -m window --display prev \
+  && yabai -m display --focus prev
+ctrl + alt + cmd - n: yabai -m window --display next \
+  && yabai -m display --focus next
 # increase window size
-shift + alt - a : yabai -m window --resize left:-20:0
-shift + alt - s : yabai -m window --resize bottom:0:20
-shift + alt - w : yabai -m window --resize top:0:-20
-shift + alt - d : yabai -m window --resize right:20:0
+shift + alt - a: yabai -m window --resize left:-20:0
+shift + alt - s: yabai -m window --resize bottom:0:20
+shift + alt - w: yabai -m window --resize top:0:-20
+shift + alt - d: yabai -m window --resize right:20:0
 # decrease window size
-shift + cmd - a : yabai -m window --resize left:20:0
-shift + cmd - s : yabai -m window --resize bottom:0:-20
-shift + cmd - w : yabai -m window --resize top:0:20
-shift + cmd - d : yabai -m window --resize right:-20:0
+shift + cmd - a: yabai -m window --resize left:20:0
+shift + cmd - s: yabai -m window --resize bottom:0:-20
+shift + cmd - w: yabai -m window --resize top:0:20
+shift + cmd - d: yabai -m window --resize right:-20:0
 ctrl + shift - h: yabai -m window --resize left:-50:0 || yabai -m window --resize right:-50:0
 ctrl + shift - l: yabai -m window --resize right:50:0 || yabai -m window --resize left:50:0
 ctrl + shift - j: yabai -m window --resize bottom:0:20 || yabai -m window --resize top:0:20
 ctrl + shift - k: yabai -m window --resize top:0:-20 || yabai -m window --resize bottom:0:-20
 
 # rotate tree
-alt - r : yabai -m space --rotate 90
+alt - r: yabai -m space --rotate 90
 # mirror tree y-axis
-alt - y : yabai -m space --mirror y-axis
+alt - y: yabai -m space --mirror y-axis
 # mirror tree x-axis
-alt - x : yabai -m space --mirror x-axis
+alt - x: yabai -m space --mirror x-axis
 # toggle desktop offset
-alt - a : yabai -m space --toggle padding && yabai -m space --toggle gap
+alt - a: yabai -m space --toggle padding && yabai -m space --toggle gap
 # toggle window fullscreen zoom
-alt - f : yabai -m window --toggle zoom-fullscreen
+alt - f: yabai -m window --toggle zoom-fullscreen
 # toggle window native fullscreen
-shift + alt - f : yabai -m window --toggle native-fullscreen
+shift + alt - f: yabai -m window --toggle native-fullscreen
 # toggle window split type
-alt - e : yabai -m window --toggle split
+alt - e: yabai -m window --toggle split
 # float / unfloat window and restore position
 # alt - t : yabai -m window --toggle float && /tmp/yabai-restore/$(yabai -m query --windows --window | jq -re '.id').restore 2>/dev/null || true
-alt - t : yabai -m window --toggle float && yabai -m window --grid 4:4:1:1:2:2
+alt - t: yabai -m window --toggle float && yabai -m window --grid 4:4:1:1:2:2
