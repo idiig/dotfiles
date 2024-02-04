@@ -159,6 +159,8 @@ export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 if which pyenv-virtualenv-init > /dev/null; then
     eval "$(pyenv virtualenv-init -)";
 fi
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # for ranger
 alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
